@@ -18,7 +18,7 @@
     <?php include_once "layout/menu.php"; ?>
     <?php include_once "layout/return.php"; ?>
 </header>
-<h2>formulaire produit</h2>
+<h2>formulaire produits</h2>
 <div class="contain-form">
     <form class="was-validated" action="produit.php" method="POST">
         <div class="col-md-4 mb-3">

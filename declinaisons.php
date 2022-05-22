@@ -18,7 +18,7 @@
     <?php include_once "layout/menu.php"; ?>
     <?php include_once "layout/return.php"; ?>
 </header>
-    <h2>Declinaisons</h2>
+    <h2>formulaire declinaisons</h2>
     <div class="contain-form">
     <form class="was-validated" action="declinaisons.php" method="POST" validated>
         <div class="form-group">
