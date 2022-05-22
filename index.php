@@ -5,52 +5,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<link href="./layout/style.css" rel="stylesheet">
     <title>User</title>
-    <style>
-    table,
-    td {
-        border: 1px solid #333;
-        text-align: center;
-    }
-
-    table {
-        width: 100%;
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-    }
-
-    th,
-    td {
-        border: 1px solid #ccc;
-        padding: 8px;
-    }
-
-    thead,
-    tfoot {
-        background-color: #333;
-        color: #fff;
-    }
-
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
-
-    td p {
-        line-height: 1.5;
-    }
-    </style>
 </head>
 
-<body>
-    <h1>Test Back BOBOCHIC</h1>
+<body class="index">
+   <div class="home">
+        <h1>Test Back BOBOCHIC</h1>
+        
+        <?php include_once "layout/menu.php"; ?>
 
-    <?php include_once "layout/menu.php"; ?>
-
-    <?php
-
-
- ?>
-
+    </div>
 </body>
 
 </html>
