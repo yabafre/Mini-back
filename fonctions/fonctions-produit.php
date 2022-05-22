@@ -1,20 +1,20 @@
 <?php
 include_once "./environnement/bdd.php";
 
-// AJOUTER UN produits
+// AJOUTER UN PRODUITS
 function ajoutproduits($mysqlClient, $produitsNew){
-  $sqlQuery = 'INSERT INTO produits(reference, price, stock, title, nb_declinaison) VALUES (:reference, :price, :stock, :title, :nb_declinaison)';
+  $sqlQuery = 'INSERT INTO produits(reference, price, stock, title) VALUES (:reference, :price, :stock, :title)';
   $insertproduits = $mysqlClient->prepare($sqlQuery);
   $insertproduits->execute([
     'reference' => $produitsNew['reference'],
     'price' => $produitsNew['price'],
     'stock' => $produitsNew['stock'],
     'title' => $produitsNew['title'],
-    'nb_declinaison' => $produitsNew['nb_declinaison'],
+
   ]);
 }
 
-//SELECTIONNER TOUS LES produitsS
+//SELECTIONNER TOUS LES PRODUITS
 function produitsAll($mysqlClient){
   $sqlQuery = 'SELECT * FROM produits ORDER BY id';
   $produitss = $mysqlClient->prepare($sqlQuery);
@@ -22,7 +22,7 @@ function produitsAll($mysqlClient){
   return $produitss->fetchAll();
 }
 
-// SELECTIONNER UN produits
+// SELECTIONNER UN PRODUITS
 function produitsSelect($mysqlClient, $id){
   $sqlQuery = 'SELECT * FROM produits WHERE id = '.$id.'';
   $produits = $mysqlClient->prepare($sqlQuery);
@@ -30,21 +30,45 @@ function produitsSelect($mysqlClient, $id){
   return $produits->fetch(PDO::FETCH_ASSOC);
 }
 
-// COUNT
+// COUNT NB_DECLINAISON
 function countDecli($mysqlClient, $id_produit){
   $sqlQuery = 'SELECT COUNT(id_produit) 
   FROM declinaisons
   WHERE id_produit = '.$id_produit.'';
   $declinaisons = $mysqlClient->prepare($sqlQuery);
   $declinaisons->execute();
-  return $declinaisons->fetch();
+  return $declinaisons->fetch(PDO::FETCH_ASSOC);
+}
+
+//SUM STOCK DECLINAISONS
+function sumStock($mysqlClient, $id_produit){
+  $sqlQuery = 'SELECT SUM(stock) 
+  FROM declinaisons
+  WHERE id_produit = '.$id_produit.'';
+  $declinaisons = $mysqlClient->prepare($sqlQuery);
+  $declinaisons->execute();
+  return $declinaisons->fetch(PDO::FETCH_ASSOC);
+}
+
+// Modifier le nombre de stock par rapport au nombre de déclinaisons de chaque produits
+function updateStock($mysqlClient, $produits, $id){
+  $sqlQuery = 'UPDATE produits SET stock = '.$produits.' WHERE id = '.$id.'';
+  $declinaisonsUpdate = $mysqlClient->prepare($sqlQuery);
+  $declinaisonsUpdate->execute();
+}
+
+// Modifier le nombre de déclinaisons de chaque produits
+function updateDecli($mysqlClient, $declinaisons, $id){
+  $sqlQuery = 'UPDATE produits SET nb_declinaison = '.$declinaisons.' WHERE id = '.$id.'';
+  $declinaisonsUpdate = $mysqlClient->prepare($sqlQuery);
+  $declinaisonsUpdate->execute();
 }
 
 
 
 //MODIFICATION USER
 function produitsUpdate($mysqlClient, $produitsUpdate){
-  $sqlQuery = 'UPDATE produits SET reference = :reference, price = :price, stock = :stock, title = :title, nb_declinaison = :nb_declinaison WHERE id = :id';
+  $sqlQuery = 'UPDATE produits SET reference = :reference, price = :price, stock = :stock, title = :title WHERE id = :id';
   $updateUser = $mysqlClient->prepare($sqlQuery);
   $updateUser->execute([
     'id' =>  $produitsUpdate['id'],
@@ -52,7 +76,6 @@ function produitsUpdate($mysqlClient, $produitsUpdate){
     'price' => $produitsUpdate['price'],
     'stock' => $produitsUpdate['stock'],
     'title' => $produitsUpdate['title'],
-    'nb_declinaison' => $produitsUpdate['nb_declinaison']
   ]);
 }
 

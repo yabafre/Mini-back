@@ -6,51 +6,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tarif</title>
-    <style>
-    table,
-    td {
-        border: 1px solid #333;
-        text-align: center;
-    }
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<link href="./layout/style.css" rel="stylesheet">
+    <title>Declinaisons</title>
 
-    table {
-        width: 100%;
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-    }
-
-    th,
-    td {
-        border: 1px solid #ccc;
-        padding: 8px;
-    }
-
-    thead,
-    tfoot {
-        background-color: #333;
-        color: #fff;
-    }
-
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
-
-    td p {
-        line-height: 1.5;
-    }
-    </style>
 </head>
 
-<body>
-    <h1>Declinaisons</h1>
-
+<body class="form">
+  
+    <header class="header-form">
     <?php include_once "layout/menu.php"; ?>
-
+    <?php include_once "layout/return.php"; ?>
+</header>
     <h2>Declinaisons</h2>
-    <form action="declinaisons.php" method="POST">
-        <div>
-            <select name="id_produit" id="id_produit">
+    <div class="contain-form">
+    <form class="was-validated" action="declinaisons.php" method="POST" validated>
+        <div class="form-group">
+            <select class="custom-select" name="id_produit" id="id_produit" required>
                 <?php 
                 $produits = produitsAll($mysqlClient);
                 foreach($produits as $key => $produit){ ?>
@@ -58,37 +31,39 @@
                 <?php } ?>
             </select>
         </div>
-        <div>
-            <input type="text" name="title" placeholder="title">
+        <br>
+        <div class="col-md-4 mb-3">
+            <input class="form-control" id="validation" type="text" name="title" placeholder="title" required>
+        </div>
+        <div class="col-md-4 mb-3">
+            <input class="form-control" id="validation" type="number" name="price" placeholder="price" required>
+        </div>
+        <div class="col-md-4 mb-3">
+            <input class="form-control" id="validation" type="number" name="stock" placeholder="stock" required>
+        </div>
+        <div class="col-md-4 mb-3">
+            <input class="form-control" id="validation" type="text" name="reference" placeholder="reference" required>
         </div>
         <div>
-            <input type="number" name="price" placeholder="price">
-        </div>
-        <div>
-            <input type="number" name="stock" placeholder="stock">
-        </div>
-        <div>
-            <input type="text" name="reference" placeholder="reference">
-        </div>
-        <div>
-            <input type="submit" value="envoyer">
+            <input class="btn btn-success" type="submit" value="envoyer">
         </div>
 
     </form>
+                </div>
     <p>Liste des declinaisons</p>
 
     <?php 
     $declinaisons = declinaisonsAll($mysqlClient);    
     if(count($declinaisons) > 0){ ?>
-    <table>
+    <table class="table table-striped table-dark">
         <thead>
             <tr>
-                <th colspan="1">Title</th>
-                <th colspan="1">Id_produit</th>
-                <th colspan="1">Price</th>
-                <th colspan="1">Stock</th>
-                <th colspan="1">Reference</th>
-                <th colspan="1">Actions</th>
+                <th colspan="col">Title</th>
+                <th colspan="col">Id_produit</th>
+                <th colspan="col">Price</th>
+                <th colspan="col">Stock</th>
+                <th colspan="col">Reference</th>
+                <th colspan="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -101,7 +76,7 @@
                 <td><?=$declinaison['stock']?></td>
                 <td><?=$declinaison['reference']?></td>
                 <td>
-                    <p><a href="declinaisons-edit.php?id=<?=$declinaison['id']?>">Editer</a> <a
+                    <p><a class="btn btn-info" href="declinaisons-edit.php?id=<?=$declinaison['id']?>">Editer</a> <a class="btn btn-danger"
                             href="declinaisons-suppression.php?id=<?=$declinaison['id']?>">Supprimer</a></p>
                 </td>
             </tr>
