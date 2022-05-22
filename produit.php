@@ -7,101 +7,76 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produit</title>
-    <style>
-    table,
-    td {
-        border: 1px solid #333;
-        text-align: center;
-    }
-
-    table {
-        width: 100%;
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-    }
-
-    th,
-    td {
-        border: 1px solid #ccc;
-        padding: 8px;
-    }
-
-    thead,
-    tfoot {
-        background-color: #333;
-        color: #fff;
-    }
-
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
-
-    td p {
-        line-height: 1.5;
-    }
-    </style>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<link href="./layout/style.css" rel="stylesheet">
+    <title>Produits</title>
 </head>
 
-<body>
-    <h1>Produit</h1>
-
+<body class="form">
+    <header class="header-form">
     <?php include_once "layout/menu.php"; ?>
-
-    <h2>formulaire produit</h2>
-
-    <form action="produit.php" method="POST">
-        <div>
-            <input type="text" name="title" placeholder="Name produit">
+    <?php include_once "layout/return.php"; ?>
+</header>
+<h2>formulaire produit</h2>
+<div class="contain-form">
+    <form class="was-validated" action="produit.php" method="POST">
+        <div class="col-md-4 mb-3">
+            <input class="form-control" id="validation" type="text" name="title" placeholder="Name produit" required>
         </div>
-        <div>
-            <input type="text" name="reference" placeholder="référence">
+        <div class="col-md-4 mb-3">
+            <input class="form-control" id="validation" type="text" name="reference" placeholder="référence" required>
         </div>
-        <div>
-            <input type="number" name="price" placeholder="Price">
+        <div  class="col-md-4 mb-3">
+            <input class="form-control" id="validation" type="number" name="price" placeholder="Price" required>
         </div>
-        <div>
-            <input type="number" name="stock" placeholder="stock">
+        <div class="col-md-4 mb-3">
+            <input class="form-control" id="validation" type="number" name="stock" placeholder="stock" required>
         </div>
         
-        <div>
-            <input type="submit" value="envoyer">
+        <div >
+            <input  class="btn btn-success" type="submit" value="envoyer">
         </div>
 
     </form>
-
+</div>
     <p>Liste des produits</p>
 
     <?php 
     $produits = produitsAll($mysqlClient);    
-    $count = countDecli($mysqlClient);
     if(count($produits) > 0){ ?>
-    <table>
+    <table class="table table-striped table-dark">
         <thead>
             <tr>
-                <th colspan="1">id</th>
-                <th colspan="1">Title</th>
-                <th colspan="1">Reference</th>
-                <th colspan="1">Price</th>
-                <th colspan="1">Stock</th>
-                <th colspan="1">NB_declinaison</th>
-                <th colspan="1">Actions</th>
+                <th colspan="col">id</th>
+                <th colspan="col">Title</th>
+                <th colspan="col">Reference</th>
+                <th colspan="col">Price</th>
+                <th colspan="col">Stock</th>
+                <th colspan="col">NB_declinaison</th>
+                <th colspan="col">Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php 
-            foreach($produits as $key => $produit){ ?>
+            foreach($produits as $key => $produit){ 
+                $count = countDecli($mysqlClient, $produit["id"]);
+                $sum = sumStock($mysqlClient, $produit["id"]);
+                updateDecli($mysqlClient, $count["COUNT(id_produit)"], $produit["id"]);
+                if($count["COUNT(id_produit)"] > 0){
+                updateStock($mysqlClient, $sum["SUM(stock)"], $produit["id"]);}
+                
+                ?>
             <tr>
                 <td><?=$produit['id']?></td>
                 <td><?=$produit['title']?></td>
                 <td><?=$produit['reference']?></td>
                 <td><?=$produit['price']?>€</td>
                 <td><?=$produit['stock']?> </td>
-                <td><?=$produit['nb_declinaisons']?> $count </td>
+                <td><?=$produit['nb_declinaison']?></td>
                 <td>
-                    <p><a href="produit-edit.php?id=<?=$produit['id']?>">Editer</a> <a
-                            href="produit-suppression.php?id=<?=$produit['id']?>">Supprimer</a> <a
-                            href="detail.php?id=<?=$produit['id']?>">detail</a></p>
+                    <p><a class="btn btn-info" href="produit-edit.php?id=<?=$produit['id']?>">Editer</a> <a class="btn btn-danger"
+                            href="produit-suppression.php?id=<?=$produit['id']?>">Supprimer</a></p>
                 </td>
             </tr>
             <?php
