@@ -13,7 +13,7 @@
 
 <body class="index">
    <div class="home">
-        <h1>Test Back BOBOCHIC</h1>
+        <h1>Test Back</h1>
         
         <?php include_once "layout/menu.php"; ?>
 
